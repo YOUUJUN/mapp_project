@@ -1,52 +1,6 @@
 <template>
     <view class="wrap">
         <u-form :model="model" :rules="rules" ref="uForm" :errorType="errorType">
-<!--            <u-form-item :leftIconStyle="{color: '#888', fontSize: '32rpx'}" left-icon="account" label-width="120" :label-position="labelPosition" label="姓名" prop="name">-->
-<!--                <u-input :border="border" placeholder="请输入姓名" v-model="model.name" type="text"></u-input>-->
-<!--            </u-form-item>-->
-<!--            <u-form-item :label-position="labelPosition" label="性别" prop="sex">-->
-<!--                <u-input :border="border" type="select" :select-open="actionSheetShow" v-model="model.sex" placeholder="请选择性别" @click="actionSheetShow = true"></u-input>-->
-<!--            </u-form-item>-->
-<!--            <u-form-item :label-position="labelPosition" label="简介" prop="intro">-->
-<!--                <u-input type="textarea" :border="border" placeholder="请填写简介" v-model="model.intro" />-->
-<!--            </u-form-item>-->
-<!--            <u-form-item :label-position="labelPosition" label="密码" prop="password">-->
-<!--                <u-input :password-icon="true" :border="border" type="password" v-model="model.password" placeholder="请输入密码"></u-input>-->
-<!--            </u-form-item>-->
-<!--            <u-form-item :label-position="labelPosition" label="确认密码" label-width="150" prop="rePassword">-->
-<!--                <u-input :border="border" type="password" v-model="model.rePassword" placeholder="请确认密码"></u-input>-->
-<!--            </u-form-item>-->
-<!--            <u-form-item :label-position="labelPosition" label="水果品种" label-width="150" prop="likeFruit">-->
-<!--                <u-checkbox-group @change="checkboxGroupChange" :width="radioCheckWidth" :wrap="radioCheckWrap">-->
-<!--                    <u-checkbox v-model="item.checked" v-for="(item, index) in checkboxList" :key="index" :name="item.name">{{ item.name }}</u-checkbox>-->
-<!--                </u-checkbox-group>-->
-<!--            </u-form-item>-->
-<!--            <u-form-item :label-position="labelPosition" label="结算方式" prop="payType" label-width="150">-->
-<!--                <u-radio-group v-model="radio" @change="radioGroupChange" :width="radioCheckWidth" :wrap="radioCheckWrap">-->
-<!--                    <u-radio shape="circle" v-for="(item, index) in radioList" :key="index" :name="item.name">{{ item.name }}</u-radio>-->
-<!--                </u-radio-group>-->
-<!--            </u-form-item>-->
-<!--            <u-form-item :label-position="labelPosition" label="所在地区" prop="region" label-width="150">-->
-<!--                <u-input :border="border" type="select" :select-open="pickerShow" v-model="model.region" placeholder="请选择地区" @click="pickerShow = true"></u-input>-->
-<!--            </u-form-item>-->
-<!--            <u-form-item :label-position="labelPosition" label="商品类型" prop="goodsType" label-width="150">-->
-<!--                <u-input :border="border" type="select" :select-open="selectShow" v-model="model.goodsType" placeholder="请选择商品类型" @click="selectShow = true"></u-input>-->
-<!--            </u-form-item>-->
-<!--            <u-form-item :rightIconStyle="{color: '#888', fontSize: '32rpx'}" right-icon="kefu-ermai" :label-position="labelPosition" label="手机号码" prop="phone" label-width="150">-->
-<!--                <u-input :border="border" placeholder="请输入手机号" v-model="model.phone" type="number"></u-input>-->
-<!--            </u-form-item>-->
-<!--            <u-form-item :label-position="labelPosition" label="验证码" prop="code" label-width="150">-->
-<!--                <u-input :border="border" placeholder="请输入验证码" v-model="model.code" type="text"></u-input>-->
-<!--                <u-button slot="right" type="success" size="mini" @click="getCode">{{codeTips}}</u-button>-->
-<!--            </u-form-item>-->
-<!--            &lt;!&ndash; 此处switch的slot为right，如果不填写slot名，也即<u-switch v-model="model.remember"></u-switch>，将会左对齐 &ndash;&gt;-->
-<!--            <u-form-item :label-position="labelPosition" label="记住密码" prop="remember" label-width="150">-->
-<!--                <u-switch v-model="model.remember" slot="right"></u-switch>-->
-<!--            </u-form-item>-->
-<!--            <u-form-item :label-position="labelPosition" label="上传图片" prop="photo" label-width="150">-->
-<!--                <u-upload width="160" height="160"></u-upload>-->
-<!--            </u-form-item>-->
-
 
             <u-form-item :label-position="labelPosition" label="车主姓名" prop="CAR_OWNER_NAME" label-width="150">
                 <u-input :border="border" type="text" v-model="model.CAR_OWNER_NAME" placeholder="请填写车主姓名"></u-input>
@@ -60,12 +14,18 @@
                 <u-input :border="border" type="text" v-model="model.CAR_OWNER_CODE" placeholder="请填写车主身份证"></u-input>
             </u-form-item>
 
+            <u-form-item :label-position="labelPosition" label="燃油类型" prop="FUEL_NAME" label-width="150">
+                <u-input :border="border" type="select" :select-open="selectList.FUEL_NAME_LIST.show" @click="selectList.FUEL_NAME_LIST.show = true" v-model="model.FUEL_NAME" placeholder="请选择车辆类型"></u-input>
+            </u-form-item>
+
             <u-form-item :label-position="labelPosition" label="车牌号码" prop="CAR_NO" label-width="150">
                 <u-input :border="border" type="text" v-model="model.CAR_NO" placeholder="请输入车牌号码"></u-input>
+                <u-button @click="openCarNoInput" slot="right" size="mini" type="success">输入</u-button>
+
             </u-form-item>
 
             <u-form-item :label-position="labelPosition" label="车辆类型" prop="CAR_KIND" label-width="150">
-                <u-input :border="border" type="select" :select-open="selectShow" @click="selectShow = true" v-model="model.CAR_KIND" placeholder="请选择车辆类型"></u-input>
+                <u-input :border="border" type="select" :select-open="selectList.FUEL_NAME_LIST.show" @click="selectList.FUEL_NAME_LIST.show = true" v-model="model.CAR_KIND" placeholder="请选择车辆类型"></u-input>
             </u-form-item>
 
             <u-form-item :label-position="labelPosition" label="残值款" prop="ESTIMATE_AMOUNT" label-width="140">
@@ -73,16 +33,17 @@
             </u-form-item>
 
             <u-form-item :label-position="labelPosition" label="录入时间" prop="IN_DATE" label-width="150">
-                <u-input :border="border" type="time" v-model="model.IN_DATE" placeholder="请选择录入时间"></u-input>
+                <u-input @click="showCalendar" :disabled='true' :border="border" type="time" v-model="model.IN_DATE" placeholder="请选择录入时间"></u-input>
+                <u-icon @click="showCalendar" slot="right" name="calendar" size="40" color="#909399"></u-icon>
             </u-form-item>
 
             <u-form-item :label-position="labelPosition" label="水果品种" label-width="150" prop="likeFruit">
-                <u-checkbox-group @change="checkboxGroupChange" :width="radioCheckWidth" :wrap="radioCheckWrap">
+                <u-checkbox-group @change="checkboxGroupChange" width="auto" wrap="radioCheckWrap">
                     <u-checkbox v-model="item.checked" v-for="(item, index) in checkboxList" :key="index" :name="item.name">{{ item.name }}</u-checkbox>
                 </u-checkbox-group>
             </u-form-item>
             <u-form-item :label-position="labelPosition" label="结算方式" prop="payType" label-width="150">
-                <u-radio-group v-model="radio" @change="radioGroupChange" :width="radioCheckWidth" :wrap="radioCheckWrap">
+                <u-radio-group v-model="radio" @change="radioGroupChange" width="auto" :wrap="radioCheckWrap">
                     <u-radio shape="circle" v-for="(item, index) in radioList" :key="index" :name="item.name">{{ item.name }}</u-radio>
                 </u-radio-group>
             </u-form-item>
@@ -93,19 +54,26 @@
 
 
         </u-form>
-        <view class="agreement">
-            <u-checkbox v-model="check" @change="checkboxChange"></u-checkbox>
-            <view class="agreement-text">
-                勾选代表同意uView的版权协议
-            </view>
-        </view>
+
+<!--        <view class="agreement">-->
+<!--            <u-checkbox v-model="check" @change="checkboxChange"></u-checkbox>-->
+<!--            <view class="agreement-text">-->
+<!--                勾选代表同意uView的版权协议-->
+<!--            </view>-->
+<!--        </view>-->
+
         <u-button @click="submit">提交</u-button>
 
 
-        <u-action-sheet :list="actionSheetList" v-model="actionSheetShow" @click="actionSheetCallback"></u-action-sheet>
-        <u-select mode="single-column" :list="selectList" v-model="selectShow" @confirm="selectConfirm"></u-select>
-        <u-picker mode="region" v-model="pickerShow" @confirm="regionConfirm"></u-picker>
+        <u-select mode="single-column" :list="selectList.FUEL_NAME_LIST.data" v-model="selectList.FUEL_NAME_LIST.show" @confirm="choiceFuel"></u-select>
         <u-verification-code seconds="60" ref="uCode" @change="codeChange"></u-verification-code>
+
+        <u-calendar v-model="calendar.show" ref="calendar" @change="calendarChange" :mode="calendar.mode"
+                    :start-text="calendar.startText" :end-text="calendar.endText" :range-color="calendar.rangeColor"
+                    :range-bg-color="calendar.rangeBgColor" :active-bg-color="calendar.activeBgColor" :btn-type="calendar.btnType"
+        >
+        </u-calendar>
+
     </view>
 </template>
 
@@ -134,26 +102,46 @@
                     CAR_OWNER_NAME : '',
                     CAR_OWNER_PHONE : '',
                     CAR_OWNER_CODE : '',
+                    FUEL_NAME : '',
                     CAR_NO : '',
                     CAR_KIND : '',
                     ESTIMATE_AMOUNT : '',
                     IN_DATE : '',
 
                 },
-                selectList: [
-                    {
-                        value: '电子产品',
-                        label: '电子产品'
-                    },
-                    {
-                        value: '服装',
-                        label: '服装'
-                    },
-                    {
-                        value: '工艺品',
-                        label: '工艺品'
+
+                selectList : {
+                    FUEL_NAME_LIST : {
+                        show : false,
+                        data : [
+                            {
+                                value : '汽油',
+                                label : '汽油'
+                            },
+                            {
+                                value : '柴油',
+                                label : '柴油'
+                            },
+                            {
+                                value : '纯电',
+                                label : '纯电'
+                            }
+                        ]
                     }
-                ],
+                },
+
+                calendar : {
+                    show : false,
+                    mode : 'date',
+                    result: "请选择日期",
+                    startText: '开始',
+                    endText: '结束',
+                    rangeColor: '#2979ff',
+                    rangeBgColor: 'rgba(41,121,255,0.13)',
+                    activeBgColor: '#2979ff',
+                    btnType: 'primary',
+                },
+
                 rules: {
                     name: [
                         {
@@ -304,9 +292,9 @@
                         }
                     ],
                 },
+
                 border: false,
                 check: false,
-                selectStatus: 'close',
                 checkboxList: [
                     {
                         name: '荔枝',
@@ -329,6 +317,7 @@
                         disabled: false
                     }
                 ],
+
                 radioList: [
                     {
                         name: '支付宝',
@@ -352,21 +341,7 @@
                     }
                 ],
                 radio: '支付宝',
-                actionSheetList: [
-                    {
-                        text: '男'
-                    },
-                    {
-                        text: '女'
-                    },
-                    {
-                        text: '保密'
-                    }
-                ],
-                actionSheetShow: false,
-                pickerShow: false,
-                selectShow: false,
-                radioCheckWidth: 'auto',
+
                 radioCheckWrap: false,
                 labelPosition: 'left',
                 codeTips: '',
@@ -376,15 +351,83 @@
         onLoad() {
 
         },
+
+        created(){
+
+            for(let item in this.model){
+                let prop = `model.${item}`;
+                console.log('prop',prop);
+                this.$watch(prop,function(old, newbie){
+                    console.log('ok==>',old, newbie);
+                })
+            }
+        },
+
         computed: {
             borderCurrent() {
                 return this.border ? 0 : 1;
             }
         },
+
         onReady() {
             // this.$refs.uForm.setRules(this.rules);
         },
         methods: {
+
+            showCalendar(index) {
+                this.calendar.show = !index;
+            },
+
+            calendarChange(e) {
+                if (this.mode == 'range') {
+                    this.calendar.result = e.startDate + " - " + e.endDate;
+                } else {
+                    this.calendar.result = e.result;
+                }
+            },
+
+            openCarNoInput(){
+
+                uni.navigateTo({
+                    url: '/pages/carNo/carNo',
+                    success : result => {
+                        console.log('result', result);
+                    },
+                    fail : msg =>{
+                        console.log('msg', msg);
+                    }
+                });
+            },
+
+
+            //选择燃油类型
+            choiceFuel(e){
+                console.log('e=>',e);
+                console.log('value',e[0].value);
+                this.model.FUEL_NAME = e[0].value;
+            },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             submit() {
                 this.$refs.uForm.validate(valid => {
                     if (valid) {
@@ -395,11 +438,8 @@
                     }
                 });
             },
-            // 点击actionSheet回调
-            actionSheetCallback(index) {
-                uni.hideKeyboard();
-                this.model.sex = this.actionSheetList[index].text;
-            },
+
+
             // checkbox选择发生变化
             checkboxGroupChange(e) {
                 this.model.likeFruit = e;
@@ -412,17 +452,7 @@
             checkboxChange(e) {
                 this.model.agreement = e.value;
             },
-            // 选择地区回调
-            regionConfirm(e) {
-                this.model.region = e.province.label + '-' + e.city.label + '-' + e.area.label;
-            },
-            // 选择商品类型回调
-            selectConfirm(e) {
-                this.model.goodsType = '';
-                e.map((val, index) => {
-                    this.model.goodsType += this.model.goodsType == '' ? val.label : '-' + val.label;
-                })
-            },
+
 
             codeChange(text) {
                 this.codeTips = text;

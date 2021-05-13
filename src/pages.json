@@ -72,6 +72,15 @@
 			}
 		},
 		{
+			"path": "pages/carNo/carNo",
+			"style": {
+				"navigationBarTitleText": "车牌号输入",
+				"app-plus" : {
+					"scrollIndicator" : "none"
+				}
+			}
+		},
+		{
 			"path": "pages/user/user",
 			"style": {
 				"navigationBarTitleText": "我的"
