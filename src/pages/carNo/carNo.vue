@@ -3,7 +3,7 @@
 <template>
     <view class="page-carnumber-test">
         <view class="number-wrap">
-            <car-number v-model="carNumber"></car-number>
+            <car-number v-model="carNumber" :length="length" @inputdone='handleDone'></car-number>
         </view>
     </view>
 </template>
@@ -17,16 +17,49 @@
         },
         data() {
             return {
-                carNumber: '渝AT9999',
+                carNumber: '',
+                fuel_name : '汽油'
             }
         },
+
+        onLoad(e) {
+            console.log('e[\'car_no\']',e);
+            this.carNumber = e['car_no'].trim();
+            this.fuel_name = e['fuel_name'];
+        },
+
         watch: {
             carNumber(num) {
-                console.log(num);
+                uni.$emit('getCarNo',{
+                    msg : num
+                });
             },
         },
-        methods: {
+
+        computed : {
+
+            length (){
+                if(this.fuel_name === '纯电'){
+                    return 8;
+                }else{
+                    return 7;
+                }
+            }
+
         },
+
+
+        methods: {
+
+            handleDone(){
+                this.$nextTick(()=>{
+                    uni.navigateBack();
+                })
+            }
+
+        },
+
+
         beforeMount() {
         },
     }

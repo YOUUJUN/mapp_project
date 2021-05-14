@@ -13,7 +13,7 @@
 						<u-icon name="lock" :size="46"></u-icon>
 						<view class="grid-text">车辆列表</view>
 					</u-grid-item>
-					<u-grid-item :index="2">
+					<u-grid-item :index="2" @click="justTest">
 						<image src="https://cdn.uviewui.com/uview/grid/hot5.png" :style="{
 							top: col == 3 ? '14rpx' : '8rpx',
 							right: col == 3 ? '40rpx' : '28rpx'
@@ -86,6 +86,9 @@
 					case 1:
 						url = "/pages/carList/carList";
 					break;
+					case 2 :
+
+						break;
 				}
 
 				uni.navigateTo({
@@ -98,6 +101,23 @@
 					}
 				});
 
+			},
+
+
+			justTest(){
+				// let sql = `
+				// 	ID INT PRIMARY KEY  NOT NULL,
+				// 	CAR_OWNER_NAME TEXT NOT NULL,
+				// 	CAR_OWNER_PHONE INTEGER,
+				// 	CAR_OWNER_CODE TEXT,
+				// 	CAR_NO TEXT NOT NULL,
+				// 	CAR_KIND TEXT,
+				// 	ESTIMATE_AMOUNT REAL
+				// 	IN_DATE TEXT
+				// `;
+				// this.$db.createTable('netless','car',sql);
+
+				this.$db.delTable('netless', 'car');
 			}
 		}
 	};

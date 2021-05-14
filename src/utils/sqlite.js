@@ -1,3 +1,5 @@
+import {errorCaptured} from './tools';
+
 export default {
 
     //数据库是否为打开状态
@@ -73,14 +75,76 @@ export default {
 
     createTableCarSQL : `
         CREATE TABLE IF NOT EXISTS car(
-            ID INT PRIMARY KEY  NOT NULL,
+            ID INT PRIMARY KEY,
             CAR_OWNER_NAME TEXT NOT NULL,
             CAR_OWNER_PHONE INTEGER,
             CAR_OWNER_CODE TEXT,
+            FUEL_NAME TEXT,
             CAR_NO TEXT NOT NULL,
             CAR_KIND TEXT,
-            ESTIMATE_AMOUNT REAL
+            ESTIMATE_AMOUNT REAL,
             IN_DATE TEXT
         )
-    `
+    `,
+
+    //创建表
+    async createTable(db, tableName, sql){
+
+        let spawnSql = `CREATE TABLE IF NOT EXISTS ${tableName}(${sql})`;
+
+        let [err, res] = await errorCaptured(this.executeSQL, db, spawnSql);
+        console.log('err',err,'res',res);
+
+        if(err){
+            console.error('创建 car 表失败', err);
+        }
+        if(res){
+            console.log('创建 car 表成功', res);
+        }
+
+    },
+
+    //删除表
+    async delTable(db, tableName){
+        let isExit = await this.isTableExit(db, tableName);
+        if(isExit){
+            try{
+                let result = this.executeSQL(db, `DROP TABLE ${tableName};`);
+                console.log(`删除${tableName}表成功`,result);
+            }catch (e) {
+                console.log(`删除${tableName}表失败`,e);
+            }
+
+        }else{
+            console.log(tableName,'表不存在');
+        }
+    },
+
+    //插入数据
+    async insertData(db, tableName, data){
+        let column = ['ID'];
+        let values = ['null'];
+        for(let item in data){
+            column.push(item);
+            console.log('value',typeof data[item]);
+            values.push(`'${data[item]}'`);
+        }
+        column = column.join(',');
+        values = values.join(',');
+
+        let sql = `INSERT INTO ${tableName} (${column}) VALUES (${values});`;
+        // let sql = `INSERT INTO car (ID,CAR_OWNER_NAME,CAR_OWNER_PHONE,CAR_OWNER_CODE,FUEL_NAME,CAR_NO,CAR_KIND,ESTIMATE_AMOUNT,IN_DATE) VALUES (1,123,12,123456,'汽油','皖YOUJUN','轿车',200,2021-5-14);`;
+        console.log('sql===>',sql);
+
+        let [err, res] = await errorCaptured(this.executeSQL, db, sql);
+        if(err){
+            console.log('插入失败',err);
+        }
+        if(res){
+            console.log('插入成功');
+        }
+        let result = res || [];
+        return result;
+    }
+
 }

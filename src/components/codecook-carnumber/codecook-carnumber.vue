@@ -1,15 +1,15 @@
 <template>
   <view class="car-number">
-    <view class="new-energy">新能源</view>
+    <view class="new-energy" v-show="length == 8">新能源</view>
     <view class="wrap" @tap="focusHandler">
-      <view 
+      <view
         :class="[
-          'cell', 
-          { last: index === length - 1}, 
-          { 'no-border': index === length - 1 || index === length - 2 }, 
+          'cell',
+          { last: index === length - 1},
+          { 'no-border': index === length - 1 || index === length - 2 },
           { active: index === current },
-        ]" 
-        v-for="(val, index) in fill" 
+        ]"
+        v-for="(val, index) in fill"
         :key="index"
         @tap.stop="focusHandler(index)"
       >
@@ -18,7 +18,7 @@
       </view>
     </view>
 
-    <key-board 
+    <key-board
       v-if="focus"
       :type="kType"
       @on-delete="keyDeleteHandler"
@@ -30,7 +30,7 @@
 
 <script>
   import KeyBoard from '../codecook-keyboard/codecook-keyboard.vue';
-  
+
 	export default {
     name: 'CarNumber',
 		components: {
@@ -69,7 +69,7 @@
         this.focus = true;
 
         this.current = index;
-        console.log(this.current);
+        console.log("current",this.current);
       },
       keyDeleteHandler() {
         this.$set(this.fill, this.current, '');
@@ -84,6 +84,8 @@
         this.$set(this.fill, this.current, key);
 
         if (this.current >= this.length - 1) {
+          console.log('It is done');
+          this.$emit('inputdone');
           return;
         }
 
@@ -106,7 +108,7 @@
       }
     },
     mounted() {
-      this.focus = true;  
+      this.focus = true;
     },
 	}
 </script>
@@ -150,7 +152,7 @@
       padding: 0 10rpx;
       display: flex;
       flex-direction: column;
-      position: relative; 
+      position: relative;
       height: 70rpx;
 
       .val {

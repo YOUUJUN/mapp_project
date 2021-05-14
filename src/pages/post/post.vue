@@ -25,7 +25,7 @@
             </u-form-item>
 
             <u-form-item :label-position="labelPosition" label="车辆类型" prop="CAR_KIND" label-width="150">
-                <u-input :border="border" type="select" :select-open="selectList.FUEL_NAME_LIST.show" @click="selectList.FUEL_NAME_LIST.show = true" v-model="model.CAR_KIND" placeholder="请选择车辆类型"></u-input>
+                <u-input :border="border" type="select" :select-open="selectList.CAR_KIND_LIST.show" @click="selectList.CAR_KIND_LIST.show = true" v-model="model.CAR_KIND" placeholder="请选择车辆类型"></u-input>
             </u-form-item>
 
             <u-form-item :label-position="labelPosition" label="残值款" prop="ESTIMATE_AMOUNT" label-width="140">
@@ -37,17 +37,6 @@
                 <u-icon @click="showCalendar" slot="right" name="calendar" size="40" color="#909399"></u-icon>
             </u-form-item>
 
-            <u-form-item :label-position="labelPosition" label="水果品种" label-width="150" prop="likeFruit">
-                <u-checkbox-group @change="checkboxGroupChange" width="auto" wrap="radioCheckWrap">
-                    <u-checkbox v-model="item.checked" v-for="(item, index) in checkboxList" :key="index" :name="item.name">{{ item.name }}</u-checkbox>
-                </u-checkbox-group>
-            </u-form-item>
-            <u-form-item :label-position="labelPosition" label="结算方式" prop="payType" label-width="150">
-                <u-radio-group v-model="radio" @change="radioGroupChange" width="auto" :wrap="radioCheckWrap">
-                    <u-radio shape="circle" v-for="(item, index) in radioList" :key="index" :name="item.name">{{ item.name }}</u-radio>
-                </u-radio-group>
-            </u-form-item>
-
             <u-form-item :label-position="labelPosition" label="上传图片" prop="photo" label-width="150">
                 <u-upload width="160" height="160"></u-upload>
             </u-form-item>
@@ -55,17 +44,12 @@
 
         </u-form>
 
-<!--        <view class="agreement">-->
-<!--            <u-checkbox v-model="check" @change="checkboxChange"></u-checkbox>-->
-<!--            <view class="agreement-text">-->
-<!--                勾选代表同意uView的版权协议-->
-<!--            </view>-->
-<!--        </view>-->
-
         <u-button @click="submit">提交</u-button>
 
 
         <u-select mode="single-column" :list="selectList.FUEL_NAME_LIST.data" v-model="selectList.FUEL_NAME_LIST.show" @confirm="choiceFuel"></u-select>
+        <u-select mode="single-column" :list="selectList.CAR_KIND_LIST.data" v-model="selectList.CAR_KIND_LIST.show" @confirm="choiceKind"></u-select>
+
         <u-verification-code seconds="60" ref="uCode" @change="codeChange"></u-verification-code>
 
         <u-calendar v-model="calendar.show" ref="calendar" @change="calendarChange" :mode="calendar.mode"
@@ -83,31 +67,14 @@
             let that = this;
             return {
                 model: {
-                    name: '',
-                    sex: '',
-                    likeFruit: '',
-                    intro: '',
-                    payType: '支付宝',
-                    agreement: false,
-                    region: '',
-                    goodsType: '',
-                    phone: '',
-                    code: '',
-                    password: '',
-                    rePassword: '',
-                    remember: false,
-                    photo: '',
-
-
-                    CAR_OWNER_NAME : '',
-                    CAR_OWNER_PHONE : '',
-                    CAR_OWNER_CODE : '',
-                    FUEL_NAME : '',
-                    CAR_NO : '',
-                    CAR_KIND : '',
-                    ESTIMATE_AMOUNT : '',
-                    IN_DATE : '',
-
+                    CAR_OWNER_NAME : '123',
+                    CAR_OWNER_PHONE : '12',
+                    CAR_OWNER_CODE : '123456',
+                    FUEL_NAME : '汽油',
+                    CAR_NO : '皖YOUJUN',
+                    CAR_KIND : '轿车',
+                    ESTIMATE_AMOUNT : '200',
+                    IN_DATE : '2021-5-14',
                 },
 
                 selectList : {
@@ -127,6 +94,24 @@
                                 label : '纯电'
                             }
                         ]
+                    },
+
+                    CAR_KIND_LIST : {
+                        show : false,
+                        data : [
+                            {
+                                value : '轿车',
+                                label : '轿车'
+                            },
+                            {
+                                value : '面包车',
+                                label : '面包车'
+                            },
+                            {
+                                value : '货车',
+                                label : '货车'
+                            }
+                        ]
                     }
                 },
 
@@ -143,204 +128,11 @@
                 },
 
                 rules: {
-                    name: [
-                        {
-                            required: true,
-                            message: '请输入姓名',
-                            trigger: 'blur' ,
-                        },
-                        {
-                            min: 3,
-                            max: 5,
-                            message: '姓名长度在3到5个字符',
-                            trigger: ['change','blur'],
-                        },
-                        {
-                            // 此为同步验证，可以直接返回true或者false，如果是异步验证，稍微不同，见下方说明
-                            validator: (rule, value, callback) => {
-                                // 调用uView自带的js验证规则，详见：https://www.uviewui.com/js/test.html
-                                return this.$u.test.chinese(value);
-                            },
-                            message: '姓名必须为中文',
-                            // 触发器可以同时用blur和change，二者之间用英文逗号隔开
-                            trigger: ['change','blur'],
-                        },
-                        // 异步验证，用途：比如用户注册时输入完账号，后端检查账号是否已存在
-                        // {
-                        // 	trigger: ['blur'],
-                        // 	// 异步验证需要通过调用callback()，并且在里面抛出new Error()
-                        // 	// 抛出的内容为需要提示的信息，和其他方式的message属性的提示一样
-                        // 	asyncValidator: (rule, value, callback) => {
-                        // 		this.$u.post('/ebapi/public_api/index').then(res => {
-                        // 			// 如果验证出错，需要在callback()抛出new Error('错误提示信息')
-                        // 			if(res.error) {
-                        // 				callback(new Error('姓名重复'));
-                        // 			} else {
-                        // 				// 如果没有错误，也要执行callback()回调
-                        // 				callback();
-                        // 			}
-                        // 		})
-                        // 	},
-                        // }
-                    ],
-                    sex: [
-                        {
-                            required: true,
-                            message: '请选择性别',
-                            trigger: 'change'
-                        },
-                    ],
-                    intro: [
-                        {
-                            required: true,
-                            message: '请填写简介'
-                        },
-                        {
-                            min: 5,
-                            message: '简介不能少于5个字',
-                            trigger: 'change' ,
-                        },
-                        // 正则校验示例，此处用正则校验是否中文，此处仅为示例，因为uView有this.$u.test.chinese可以判断是否中文
-                        {
-                            pattern: /^[\u4e00-\u9fa5]+$/gi,
-                            message: '简介只能为中文',
-                            trigger: 'change',
-                        },
-                    ],
-                    likeFruit: [
-                        {
-                            required: true,
-                            message: '请选择您喜欢的水果',
-                            trigger: 'change',
-                            type: 'array',
-                        }
-                    ],
-                    payType: [
-                        {
-                            required: true,
-                            message: '请选择任意一种支付方式',
-                            trigger: 'change',
-                        }
-                    ],
-                    region: [
-                        {
-                            required: true,
-                            message: '请选择地区',
-                            trigger: 'change',
-                        }
-                    ],
-                    goodsType: [
-                        {
-                            required: true,
-                            message: '请选择商品类型',
-                            trigger: 'change',
-                        }
-                    ],
-                    phone: [
-                        {
-                            required: true,
-                            message: '请输入手机号',
-                            trigger: ['change','blur'],
-                        },
-                        {
-                            validator: (rule, value, callback) => {
-                                // 调用uView自带的js验证规则，详见：https://www.uviewui.com/js/test.html
-                                return this.$u.test.mobile(value);
-                            },
-                            message: '手机号码不正确',
-                            // 触发器可以同时用blur和change，二者之间用英文逗号隔开
-                            trigger: ['change','blur'],
-                        }
-                    ],
-                    code: [
-                        {
-                            required: true,
-                            message: '请输入验证码',
-                            trigger: ['change','blur'],
-                        },
-                        {
-                            type: 'number',
-                            message: '验证码只能为数字',
-                            trigger: ['change','blur'],
-                        }
-                    ],
-                    password: [
-                        {
-                            required: true,
-                            message: '请输入密码',
-                            trigger: ['change','blur'],
-                        },
-                        {
-                            // 正则不能含有两边的引号
-                            pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]+\S{5,12}$/,
-                            message: '需同时含有字母和数字，长度在6-12之间',
-                            trigger: ['change','blur'],
-                        }
-                    ],
-                    rePassword: [
-                        {
-                            required: true,
-                            message: '请重新输入密码',
-                            trigger: ['change','blur'],
-                        },
-                        {
-                            validator: (rule, value, callback) => {
-                                return value === this.model.password;
-                            },
-                            message: '两次输入的密码不相等',
-                            trigger: ['change','blur'],
-                        }
-                    ],
+
                 },
 
                 border: false,
-                check: false,
-                checkboxList: [
-                    {
-                        name: '荔枝',
-                        checked: false,
-                        disabled: false
-                    },
-                    {
-                        name: '香蕉',
-                        checked: false,
-                        disabled: false
-                    },
-                    {
-                        name: '橙子',
-                        checked: false,
-                        disabled: false
-                    },
-                    {
-                        name: '草莓',
-                        checked: false,
-                        disabled: false
-                    }
-                ],
 
-                radioList: [
-                    {
-                        name: '支付宝',
-                        checked: true,
-                        disabled: false
-                    },
-                    {
-                        name: '微信',
-                        checked: false,
-                        disabled: false
-                    },
-                    {
-                        name: '银联',
-                        checked: false,
-                        disabled: false
-                    },
-                    {
-                        name: '现金',
-                        checked: false,
-                        disabled: false
-                    }
-                ],
-                radio: '支付宝',
 
                 radioCheckWrap: false,
                 labelPosition: 'left',
@@ -357,8 +149,8 @@
             for(let item in this.model){
                 let prop = `model.${item}`;
                 console.log('prop',prop);
-                this.$watch(prop,function(old, newbie){
-                    console.log('ok==>',old, newbie);
+                this.$watch(prop,function(newbie,old){
+                    console.log('old==>',old, 'new==>',newbie);
                 })
             }
         },
@@ -383,13 +175,14 @@
                     this.calendar.result = e.startDate + " - " + e.endDate;
                 } else {
                     this.calendar.result = e.result;
+                    this.model.IN_DATE = e.result;
                 }
             },
 
             openCarNoInput(){
 
                 uni.navigateTo({
-                    url: '/pages/carNo/carNo',
+                    url: `/pages/carNo/carNo?fuel_name=${this.model.FUEL_NAME}&car_no=${this.model.CAR_NO}`,
                     success : result => {
                         console.log('result', result);
                     },
@@ -397,6 +190,11 @@
                         console.log('msg', msg);
                     }
                 });
+
+                uni.$on('getCarNo',(res) => {
+                    this.model.CAR_NO = res.msg.trim();
+                });
+
             },
 
 
@@ -407,36 +205,26 @@
                 this.model.FUEL_NAME = e[0].value;
             },
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            choiceKind(e){
+                this.model.CAR_KIND = e[0].value;
+            },
 
 
 
             submit() {
-                this.$refs.uForm.validate(valid => {
-                    if (valid) {
-                        if(!this.model.agreement) return this.$u.toast('请勾选协议');
-                        console.log('验证通过');
-                    } else {
-                        console.log('验证失败');
-                    }
-                });
+
+                this.$db.insertData('netless', 'car', this.model);
+
+
+                // this.$refs.uForm.validate(valid => {
+                //     console.log("valid==>",valid);
+                //     if (valid) {
+                //         $u.toast('alright');
+                //         console.log('验证通过');
+                //     } else {
+                //         console.log('验证失败');
+                //     }
+                // });
             },
 
 

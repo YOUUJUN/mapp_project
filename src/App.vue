@@ -60,7 +60,6 @@
 
                     let result = await this.$db.isTableExit('netless', 'car');
                     console.log('result',result);
-
                 }
             },
 
