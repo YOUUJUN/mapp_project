@@ -1,50 +1,114 @@
 <template>
+
     <view class="wrap">
-        <u-form :model="model" :rules="rules" ref="uForm" :errorType="errorType">
+        <view class="u-tabs-box">
+            <u-tabs-swiper activeColor="#f29100" ref="tabs" :list="list" :current="current" @change="change" :is-scroll="false" swiperWidth="750"></u-tabs-swiper>
+        </view>
+        <swiper class="swiper-box" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
+            <swiper-item class="swiper-item">
+                <scroll-view scroll-y style="height: 100%;width: 100%;" @scrolltolower="">
 
-            <u-form-item :label-position="labelPosition" label="车主姓名" prop="CAR_OWNER_NAME" label-width="150">
-                <u-input :border="border" type="text" v-model="model.CAR_OWNER_NAME" placeholder="请填写车主姓名"></u-input>
-            </u-form-item>
+                    <u-form :model="model" :rules="rules" ref="uForm" :errorType="errorType">
 
-            <u-form-item :label-position="labelPosition" label="车主电话" prop="CAR_OWNER_PHONE" label-width="150">
-                <u-input :border="border" type="text" v-model="model.CAR_OWNER_PHONE" placeholder="请填写车主电话"></u-input>
-            </u-form-item>
+                        <u-form-item :label-position="labelPosition" label="车主姓名" prop="CAR_OWNER_NAME" label-width="150">
+                            <u-input :border="border" type="text" v-model="model.CAR_OWNER_NAME" placeholder="请填写车主姓名"></u-input>
+                        </u-form-item>
 
-            <u-form-item :label-position="labelPosition" label="车主身份证" prop="CAR_OWNER_CODE" label-width="160">
-                <u-input :border="border" type="text" v-model="model.CAR_OWNER_CODE" placeholder="请填写车主身份证"></u-input>
-            </u-form-item>
+                        <u-form-item :label-position="labelPosition" label="车主电话" prop="CAR_OWNER_PHONE" label-width="150">
+                            <u-input :border="border" type="text" v-model="model.CAR_OWNER_PHONE" placeholder="请填写车主电话"></u-input>
+                        </u-form-item>
 
-            <u-form-item :label-position="labelPosition" label="燃油类型" prop="FUEL_NAME" label-width="150">
-                <u-input :border="border" type="select" :select-open="selectList.FUEL_NAME_LIST.show" @click="selectList.FUEL_NAME_LIST.show = true" v-model="model.FUEL_NAME" placeholder="请选择车辆类型"></u-input>
-            </u-form-item>
+                        <u-form-item :label-position="labelPosition" label="车主身份证" prop="CAR_OWNER_CODE" label-width="160">
+                            <u-input :border="border" type="text" v-model="model.CAR_OWNER_CODE" placeholder="请填写车主身份证"></u-input>
+                        </u-form-item>
 
-            <u-form-item :label-position="labelPosition" label="车牌号码" prop="CAR_NO" label-width="150">
-                <u-input :border="border" type="text" v-model="model.CAR_NO" placeholder="请输入车牌号码"></u-input>
-                <u-button @click="openCarNoInput" slot="right" size="mini" type="success">输入</u-button>
+                        <u-form-item :label-position="labelPosition" label="燃油类型" prop="FUEL_NAME" label-width="150">
+                            <u-input :border="border" type="select" :select-open="selectList.FUEL_NAME_LIST.show" @click="selectList.FUEL_NAME_LIST.show = true" v-model="model.FUEL_NAME" placeholder="请选择车辆类型"></u-input>
+                        </u-form-item>
 
-            </u-form-item>
+                        <u-form-item :label-position="labelPosition" label="车牌号码" prop="CAR_NO" label-width="150">
+                            <u-input :border="border" type="text" v-model="model.CAR_NO" placeholder="请输入车牌号码"></u-input>
+                            <u-button @click="openCarNoInput" slot="right" size="mini" type="success">输入</u-button>
 
-            <u-form-item :label-position="labelPosition" label="车辆类型" prop="CAR_KIND" label-width="150">
-                <u-input :border="border" type="select" :select-open="selectList.CAR_KIND_LIST.show" @click="selectList.CAR_KIND_LIST.show = true" v-model="model.CAR_KIND" placeholder="请选择车辆类型"></u-input>
-            </u-form-item>
+                        </u-form-item>
 
-            <u-form-item :label-position="labelPosition" label="残值款" prop="ESTIMATE_AMOUNT" label-width="140">
-                <u-input :border="border" type="text" v-model="model.ESTIMATE_AMOUNT" placeholder="请输入残值款"></u-input>
-            </u-form-item>
+                        <u-form-item :label-position="labelPosition" label="车辆类型" prop="CAR_KIND" label-width="150">
+                            <u-input :border="border" type="select" :select-open="selectList.CAR_KIND_LIST.show" @click="selectList.CAR_KIND_LIST.show = true" v-model="model.CAR_KIND" placeholder="请选择车辆类型"></u-input>
+                        </u-form-item>
 
-            <u-form-item :label-position="labelPosition" label="录入时间" prop="IN_DATE" label-width="150">
-                <u-input @click="showCalendar" :disabled='true' :border="border" type="time" v-model="model.IN_DATE" placeholder="请选择录入时间"></u-input>
-                <u-icon @click="showCalendar" slot="right" name="calendar" size="40" color="#909399"></u-icon>
-            </u-form-item>
+                        <u-form-item :label-position="labelPosition" label="残值款" prop="ESTIMATE_AMOUNT" label-width="140">
+                            <u-input :border="border" type="text" v-model="model.ESTIMATE_AMOUNT" placeholder="请输入残值款"></u-input>
+                        </u-form-item>
 
-            <u-form-item :label-position="labelPosition" label="上传图片" prop="photo" label-width="150">
-                <u-upload width="160" height="160"></u-upload>
-            </u-form-item>
+                        <u-form-item :label-position="labelPosition" label="录入时间" prop="IN_DATE" label-width="150">
+                            <u-input @click="showCalendar" :disabled='true' :border="border" type="time" v-model="model.IN_DATE" placeholder="请选择录入时间"></u-input>
+                            <u-icon @click="showCalendar" slot="right" name="calendar" size="40" color="#909399"></u-icon>
+                        </u-form-item>
+
+                        <u-form-item :label-position="labelPosition" label="上传图片" prop="photo" label-width="150">
+                            <u-upload width="160" height="160"></u-upload>
+                        </u-form-item>
 
 
-        </u-form>
+                    </u-form>
 
-        <u-button @click="submit">提交</u-button>
+                    <u-button @click="submit">提交</u-button>
+
+
+                </scroll-view>
+            </swiper-item>
+            <swiper-item class="swiper-item">
+                <scroll-view scroll-y style="height: 100%;width: 100%;" @scrolltolower="">
+
+                    <u-form :model="model" :rules="rules" ref="uForm" :errorType="errorType">
+
+                        <u-form-item :label-position="labelPosition" label="车主姓名" prop="CAR_OWNER_NAME" label-width="150">
+                            <u-input :border="border" type="text" v-model="model.CAR_OWNER_NAME" placeholder="请填写车主姓名"></u-input>
+                        </u-form-item>
+
+                        <u-form-item :label-position="labelPosition" label="车主电话" prop="CAR_OWNER_PHONE" label-width="150">
+                            <u-input :border="border" type="text" v-model="model.CAR_OWNER_PHONE" placeholder="请填写车主电话"></u-input>
+                        </u-form-item>
+
+                        <u-form-item :label-position="labelPosition" label="车主身份证" prop="CAR_OWNER_CODE" label-width="160">
+                            <u-input :border="border" type="text" v-model="model.CAR_OWNER_CODE" placeholder="请填写车主身份证"></u-input>
+                        </u-form-item>
+
+                        <u-form-item :label-position="labelPosition" label="燃油类型" prop="FUEL_NAME" label-width="150">
+                            <u-input :border="border" type="select" :select-open="selectList.FUEL_NAME_LIST.show" @click="selectList.FUEL_NAME_LIST.show = true" v-model="model.FUEL_NAME" placeholder="请选择车辆类型"></u-input>
+                        </u-form-item>
+
+                        <u-form-item :label-position="labelPosition" label="车牌号码" prop="CAR_NO" label-width="150">
+                            <u-input :border="border" type="text" v-model="model.CAR_NO" placeholder="请输入车牌号码"></u-input>
+                            <u-button @click="openCarNoInput" slot="right" size="mini" type="success">输入</u-button>
+
+                        </u-form-item>
+
+                        <u-form-item :label-position="labelPosition" label="车辆类型" prop="CAR_KIND" label-width="150">
+                            <u-input :border="border" type="select" :select-open="selectList.CAR_KIND_LIST.show" @click="selectList.CAR_KIND_LIST.show = true" v-model="model.CAR_KIND" placeholder="请选择车辆类型"></u-input>
+                        </u-form-item>
+
+                        <u-form-item :label-position="labelPosition" label="残值款" prop="ESTIMATE_AMOUNT" label-width="140">
+                            <u-input :border="border" type="text" v-model="model.ESTIMATE_AMOUNT" placeholder="请输入残值款"></u-input>
+                        </u-form-item>
+
+                        <u-form-item :label-position="labelPosition" label="录入时间" prop="IN_DATE" label-width="150">
+                            <u-input @click="showCalendar" :disabled='true' :border="border" type="time" v-model="model.IN_DATE" placeholder="请选择录入时间"></u-input>
+                            <u-icon @click="showCalendar" slot="right" name="calendar" size="40" color="#909399"></u-icon>
+                        </u-form-item>
+
+                        <u-form-item :label-position="labelPosition" label="上传图片" prop="photo" label-width="150">
+                            <u-upload width="160" height="160"></u-upload>
+                        </u-form-item>
+
+
+                    </u-form>
+
+                    <u-button @click="submit">提交</u-button>
+
+                </scroll-view>
+            </swiper-item>
+        </swiper>
 
 
         <u-select mode="single-column" :list="selectList.FUEL_NAME_LIST.data" v-model="selectList.FUEL_NAME_LIST.show" @confirm="choiceFuel"></u-select>
@@ -59,6 +123,7 @@
         </u-calendar>
 
     </view>
+
 </template>
 
 <script>
@@ -66,6 +131,19 @@
         data() {
             let that = this;
             return {
+                list: [
+                    {
+                        name: '第一屏'
+                    },
+                    {
+                        name: '第二屏',
+                        count: 12
+                    }
+                ],
+                current: 0,
+                swiperCurrent: 0,
+
+
                 model: {
                     CAR_OWNER_NAME : '123',
                     CAR_OWNER_PHONE : '12',
@@ -165,6 +243,25 @@
             // this.$refs.uForm.setRules(this.rules);
         },
         methods: {
+
+            //tabs
+            // tab栏切换
+            change(index) {
+                this.swiperCurrent = index;
+            },
+
+            transition({ detail: { dx } }) {
+                this.$refs.tabs.setDx(dx);
+            },
+
+            animationfinish({ detail: { current } }) {
+                this.$refs.tabs.setFinishCurrent(current);
+                this.swiperCurrent = current;
+                this.current = current;
+            },
+
+
+
 
             showCalendar(index) {
                 this.calendar.show = !index;
@@ -284,3 +381,29 @@
         }
     }
 </style>
+
+
+<style>
+    /* #ifndef H5 */
+    page {
+        height: 100%;
+        background-color: #fff;
+    }
+    /* #endif */
+</style>
+
+<style lang="scss" scoped>
+    .wrap {
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - var(--window-top));
+        width: 100%;
+    }
+    .swiper-box {
+        flex: 1;
+    }
+    .swiper-item {
+        height: 100%;
+    }
+</style>
+

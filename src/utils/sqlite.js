@@ -126,15 +126,12 @@ export default {
         let values = ['null'];
         for(let item in data){
             column.push(item);
-            console.log('value',typeof data[item]);
             values.push(`'${data[item]}'`);
         }
         column = column.join(',');
         values = values.join(',');
 
         let sql = `INSERT INTO ${tableName} (${column}) VALUES (${values});`;
-        // let sql = `INSERT INTO car (ID,CAR_OWNER_NAME,CAR_OWNER_PHONE,CAR_OWNER_CODE,FUEL_NAME,CAR_NO,CAR_KIND,ESTIMATE_AMOUNT,IN_DATE) VALUES (1,123,12,123456,'汽油','皖YOUJUN','轿车',200,2021-5-14);`;
-        console.log('sql===>',sql);
 
         let [err, res] = await errorCaptured(this.executeSQL, db, sql);
         if(err){
@@ -145,6 +142,46 @@ export default {
         }
         let result = res || [];
         return result;
+    },
+
+    //查询数据
+
+    async selectData(db, tableName){
+        let sql = `SELECT * FROM ${tableName}`;
+
+        let [err, res] = await errorCaptured(this.executeSQL, db, sql);
+
+        let status = 1;
+        let msg = "查询成功!";
+        let data = res;
+        if(err){
+            status = 0;
+            msg = '查询失败!';
+            data = err;
+        }
+
+        return {
+            status,
+            msg,
+            data
+        }
+
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -12,6 +12,8 @@
                 setTimeout(()=>{
                     uni.navigateTo({
                         url: '/pages/post/post',
+                        animationType: 'slide-in-bottom',
+                        animationDuration: 250,
                         success : result => {
                             console.log('result', result);
                         },
@@ -77,10 +79,14 @@
 
 </script>
 
+
 <style lang="scss">
     @import "uview-ui/index.scss";
 </style>
 
 <style>
-	/*每个页面公共css */
+
+    @import "./components/colorui/main.css";
+    @import "./components/colorui/icon.css";
+
 </style>
