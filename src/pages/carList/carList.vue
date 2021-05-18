@@ -1,15 +1,39 @@
 <template>
-    <view>
+    <view class="container">
 
-        <view class="uni-padding-wrap uni-common-mt">
+        <view class="status_bar"></view>
 
-            <uni-section title="车辆列表" type="line"></uni-section>
+        <u-dropdown :close-on-click-mask="true" ref="uDropdown" activeColor="#2979ff" :borderBottom="false">
+            <u-dropdown-item @change="" v-model="value1" title="搜索条件" :options="options1"></u-dropdown-item>
+            <u-dropdown-item @change="" v-model="value2" title="业务员" :options="options2"></u-dropdown-item>
+<!--            <u-dropdown-item title="属性">-->
+<!--                &lt;!&ndash;                    <view class="slot-content">&ndash;&gt;-->
+<!--                &lt;!&ndash;                        <view class="item-box">&ndash;&gt;-->
+<!--                &lt;!&ndash;                            <view class="item" :class="[item.active ? 'active' : '']" @tap="" v-for="(item, index) in list" :key="index">&ndash;&gt;-->
+<!--                &lt;!&ndash;                                {{item.label}}&ndash;&gt;-->
+<!--                &lt;!&ndash;                            </view>&ndash;&gt;-->
+<!--                &lt;!&ndash;                        </view>&ndash;&gt;-->
+<!--                &lt;!&ndash;                        <u-button type="primary" @click="">确定</u-button>&ndash;&gt;-->
+<!--                &lt;!&ndash;                    </view>&ndash;&gt;-->
+<!--            </u-dropdown-item>-->
+        </u-dropdown>
+
+
+        <view>
+
             <uni-list>
 
 <!--                <uni-list-item title="列表右侧带箭头" rightText="右侧文字" />-->
 <!--                <uni-list-item :show-badge="true" title="列表右侧带箭头 + 角标" badge-text="12" />-->
 <!--                <uni-list-item title="列表左侧带略缩图" thumb="https://img-cdn-qiniu.dcloud.net.cn/new-page/uni.png" />-->
 <!--                <uni-list-item :show-extra-icon="true" :extra-icon="extraIcon1" :show-switch="true" title="列表右侧带 switch" @switchChange="switchChange" />-->
+
+<!--                <u-sticky :offset-top="150" :enable="true" @fixed="" @unfixed="">-->
+<!--                    <view class="sticky">-->
+<!--                        宝剑锋从磨砺出,梅花香自苦寒来-->
+<!--                    </view>-->
+<!--                </u-sticky>-->
+
 
                 <template v-for="item of carListData">
 
@@ -35,7 +59,6 @@
                 </template>
             </uni-list>
 
-<!--            <view class="uni-loadmore" v-if="showLoadMore">{{loadMoreText}}</view>-->
 
             <u-loadmore v-if="showLoadMore" status="loading" :loadText="{loading: '正在加载...'}" icon-type="circle" :is-dot="false" marginTop="14" marginBottom="14"/>
 
@@ -73,23 +96,49 @@
                     }
                 ],
 
-                data: [],
                 showLoadMore: false,
-                loadMoreText: '加载中...',
+
+                barHeight : '24',
 
 
+                //下拉栏
+                value1: '',
+                value2: '2',
+                options1: [
+                    {
+                        label: '按车牌号',
+                        value: 1,
+                    },
+                    {
+                        label: '按回收单号',
+                        value: 2,
+                    }
+                ],
+                options2: [
+                    {
+                        label: '所有',
+                        value: 1,
+                    },
+                    {
+                        label: 'YOUJUN',
+                        value: 2,
+                    },
+                    {
+                        label: '张三',
+                        value: 3,
+                    },
+                    {
+                        label: '柯涵',
+                        value: 4,
+                    }
+                ]
 
-
-                status: 'loadmore',
-                iconType: 'circle',
-                isDot: false,
-                loadText: {
-                    loadmore: '点击或上拉加载更多',
-                    loading: '正在加载...',
-                    nomore: '没有更多了'
-                },
-                current: 0
             }
+        },
+
+        onReady(){
+            this.barHeight = plus.navigator.getStatusbarHeight();
+            console.log('barHeight',this.barHeight);
         },
 
         onLoad() {
@@ -177,6 +226,26 @@
             },
             setListData() {
 
+            },
+
+
+
+            //下拉栏
+
+            /**
+             *  点击导航栏 buttons 时触发
+             */
+            onNavigationBarButtonTap() {
+                uni.showModal({
+                    title: '提示',
+                    content: '点击确定，修改输入框的内容为abc',
+                    success: res => {
+                        if (res.confirm) {
+                            const currentWebview = this.$mp.page.$getAppWebview();
+                            currentWebview.setTitleNViewSearchInputText("abc");
+                        }
+                    }
+                });
             }
 
 
@@ -185,149 +254,26 @@
 </script>
 
 <style>
-    .text {
-        margin: 16rpx 0;
-        width:100%;
-        background-color: #fff;
-        height: 120rpx;
-        line-height: 120rpx;
-        text-align: center;
-        color: #555;
-        border-radius: 8rpx;
+    /*填充导航栏*/
+    .status_bar {
+        height: calc(var(--status-bar-height) + 38px);
+        width: 100%;
+        background-color: #F8F8F8;
     }
+
+
+
 </style>
 
 
 <style>
-    /* 头条小程序组件内不能引入字体 */
-    /* #ifdef MP-TOUTIAO */
-    @font-face {
-        font-family: uniicons;
-        font-weight: normal;
-        font-style: normal;
-        src: url('~@/static/uni.ttf') format('truetype');
-    }
-
-    /* #endif */
-
-    /* #ifndef APP-NVUE */
-    page {
-        display: flex;
-        flex-direction: column;
-        box-sizing: border-box;
-        background-color: #efeff4;
-        min-height: 100%;
-        height: auto;
-    }
-
-    view {
-        font-size: 14px;
-        line-height: inherit;
-    }
-
-    .example {
-        padding: 0 15px 15px;
-    }
-
-    .example-info {
-        padding: 15px;
-        color: #3b4144;
-        background: #ffffff;
-    }
-
-    .example-body {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 0;
-        font-size: 14px;
-        background-color: #ffffff;
-    }
-
-    /* #endif */
-    .example {
-        padding: 0 15px;
-    }
-
-    .example-info {
-        /* #ifndef APP-NVUE */
-        display: block;
-        /* #endif */
-        padding: 15px;
-        color: #3b4144;
-        background-color: #ffffff;
-        font-size: 14px;
-        line-height: 20px;
-    }
-
-    .example-info-text {
-        font-size: 14px;
-        line-height: 20px;
-        color: #3b4144;
-    }
-
-
-    .example-body {
-        flex-direction: column;
-        padding: 15px;
-        background-color: #ffffff;
-    }
-
-    .word-btn-white {
-        font-size: 18px;
-        color: #FFFFFF;
-    }
-
-    .word-btn {
-        /* #ifndef APP-NVUE */
-        display: flex;
-        /* #endif */
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        border-radius: 6px;
-        height: 48px;
-        margin: 15px;
-        background-color: #007AFF;
-    }
-
-    .word-btn--hover {
-        background-color: #4ca2ff;
-    }
-
-
-    .cont {
-        flex: 1;
-        height: 45px;
-        line-height: 45px;
-        padding: 0 15px;
-        position: relative;
-        background-color: #fff;
-        font-size: 15px;
-        border-bottom-color: #F5F5F5;
-        border-bottom-width: 1px;
-        border-bottom-style: solid;
-    }
-
-    .example-body {
-        /* #ifndef APP-NVUE */
-        display: flex;
-        /* #endif */
-        flex-direction: row;
-        justify-content: center;
-        padding: 10px 0;
-        background-color: #fff;
-    }
-
-    .button {
-        border-color: #e5e5e5;
-        border-style: solid;
-        border-width: 1px;
-        padding: 4px 8px;
-        border-radius: 4px;
-    }
-
-    .button-text {
-        font-size: 15px;
+    .sticky {
+        background-color: #007aff;
+        color: #fff;
+        padding: 24rpx;
+        margin: auto;
+        font-size: 28rpx;
+        line-height: 1;
+        border-radius: 5px;
     }
 </style>

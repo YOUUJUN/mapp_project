@@ -115,6 +115,12 @@
 
 			};
 		},
+
+
+        onReady(){
+
+        },
+
 		methods: {
 
 			click(index) {

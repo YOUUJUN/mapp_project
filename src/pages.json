@@ -68,6 +68,24 @@
 				"navigationBarTitleText": "车辆列表",
 				"enablePullDownRefresh": true,
 				"app-plus" : {
+                    "titleNView" : {
+                        "type" : "transparent",
+                        "titleColor": "red",
+                        "backgroundColor": "#007AFF",
+                        "buttons": [{
+                            "fontSrc": "/static/uni.ttf",
+                            "text": "\ue466",
+                            "width": "60px",
+                            "fontSize": "28px",
+                            "color": "red",
+                            "background": "rgba(0,0,0,0.4)"
+                        }],
+                        "searchInput": {
+                            "backgroundColor": "#fff",
+                            "borderRadius": "6px",
+                            "placeholder": "请输入"
+                        }
+                    }
 
 				}
 			}
