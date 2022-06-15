@@ -7,31 +7,12 @@
         },
 
         onLaunch() {
-            uni.onTabBarMidButtonTap((options) => {
-                console.log('options');
-                setTimeout(()=>{
-                    uni.navigateTo({
-                        url: '/pages/post/post',
-                        animationType: 'slide-in-bottom',
-                        animationDuration: 250,
-                        success : result => {
-                            console.log('result', result);
-                        },
-                        fail : msg =>{
-                            console.log('msg', msg);
-                        }
-                    });
-                },0)
-            })
+            
 
         },
 
         created(){
-            this.$db.closeDB('netless').catch(err=> {
-                console.log('数据库未打开')
-            }).finally(() => {
-                this.initDB();
-            })
+           
 
         },
 
@@ -44,36 +25,7 @@
 
 
         methods : {
-            getNetworkType(){
-                uni.getNetworkType({
-                    success : result => {
-                        this.netWork = result.networkType;
-                        console.log('net', result);
-                    }
-                })
-            },
-
-
-            async initDB(){
-                let isOpen = this.$db.isOpenDB('netless', '_doc/netless.db');
-                if(!isOpen){
-                    await this.$db.openComDB('netless', '_doc/netless.db');
-                    this.createTableCar();
-
-                    let result = await this.$db.isTableExit('netless', 'car');
-                    console.log('result',result);
-                }
-            },
-
-            createTableCar(){
-                this.$db.executeSQL('netless', this.$db.createTableCarSQL).then(result => {
-                    console.log('创建 car 表成功', result);
-                }).catch(err => {
-                    console.error('创建 car 表失败', err);
-                })
-            }
-
-
+            
         }
 	}
 
@@ -86,7 +38,10 @@
 
 <style>
 
-    @import "./components/colorui/main.css";
-    @import "./components/colorui/icon.css";
+    @import "colorui/main.css";
+    @import "colorui/icon.css";
+
+    /* @import "./components/colorui/main.css";
+    @import "./components/colorui/icon.css"; */
 
 </style>

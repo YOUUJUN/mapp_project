@@ -1,51 +1,65 @@
 <template>
-    <view>
-        <view class="u-flex user-box u-p-l-30 u-p-r-20 u-p-b-30">
-            <view class="u-m-r-10">
-                <u-avatar :src="pic" size="140"></u-avatar>
-            </view>
-            <view class="u-flex-1">
-                <view class="u-font-18 u-p-b-20">uView ui</view>
-                <view class="u-font-14 u-tips-color">微信号:helang_uView</view>
-            </view>
-            <view class="u-m-l-10 u-p-10">
-                <u-icon name="scan" color="#969799" size="28"></u-icon>
-            </view>
-            <view class="u-m-l-10 u-p-10">
-                <u-icon name="arrow-right" color="#969799" size="28"></u-icon>
+    <view class="root">
+
+        <view class="avatar-wrap">
+
+        </view>
+        <view class="user-wrap" style="margin-top:-15px;">
+            <text class="user-title">我的订单</text>
+
+            <view class="user">
+
+                <view class="item">
+                    <image class="item-icon" src="/static/pop.png"></image>
+                    <text class="item-title">我的车辆</text>
+                </view>
+
+                <view class="item">
+                    <image class="item-icon" src="/static/pop.png"></image>
+                    <text class="item-title">我的车辆</text>
+                </view>
+
+                <view class="item">
+                    <image class="item-icon" src="/static/pop.png"></image>
+                    <text class="item-title">我的车辆</text>
+                </view>
+
             </view>
         </view>
 
-        <view class="u-m-t-20">
-            <u-cell-group>
-                <u-cell-item icon="rmb-circle" title="支付"></u-cell-item>
-            </u-cell-group>
+        <view class="user-wrap">
+            <text class="user-title">我的订单</text>
+
+            <view class="user">
+
+                <view class="item">
+                    <image class="item-icon" src="/static/pop.png"></image>
+                    <text class="item-title">我的车辆</text>
+                </view>
+
+                <view class="item">
+                    <image class="item-icon" src="/static/pop.png"></image>
+                    <text class="item-title">我的车辆</text>
+                </view>
+
+                <view class="item">
+                    <image class="item-icon" src="/static/pop.png"></image>
+                    <text class="item-title">我的车辆</text>
+                </view>
+
+            </view>
         </view>
 
-        <view class="u-m-t-20">
-            <u-cell-group>
-                <u-cell-item icon="star" title="收藏"></u-cell-item>
-                <u-cell-item icon="photo" title="相册"></u-cell-item>
-                <u-cell-item icon="coupon" title="卡券"></u-cell-item>
-                <u-cell-item icon="heart" title="关注"></u-cell-item>
-            </u-cell-group>
-        </view>
+        <button class="cu-btn bg-red margin-tb-sm lg panel-btn">退出登录</button>
 
-        <view class="u-m-t-20">
-            <u-cell-group>
-                <u-cell-item icon="setting" title="设置"></u-cell-item>
-            </u-cell-group>
-        </view>
+
     </view>
 </template>
 
 <script>
     export default {
         data() {
-            return {
-                pic:'https://uviewui.com/common/logo.png',
-                show:true
-            }
+            
         },
         onLoad() {
 
@@ -56,20 +70,71 @@
     }
 </script>
 
-<style lang="scss">
+<style scoped>
     page{
         background-color: #ededed;
     }
 
-    .camera{
-        width: 54px;
-        height: 44px;
+    .avatar-wrap{
+        display: flex;
+        height:500rpx;
+        background-image: url('/static/judy.jpg');
+    }
 
-        &:active{
-            background-color: #ededed;
-        }
+    .bgImg{
+        height: 500rpx;
+        width: 100%;
     }
-    .user-box{
-        background-color: #fff;
+
+    .user-wrap{
+        margin: 10px;
+        background: #fff;
+        padding: 7px 10px 20px 10px;
+        border-radius: 6px;
     }
+
+    .user-title{
+        font-weight: 600;
+        font-size: 16px;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+
+    .user{
+        display:flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .user .item{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .item-icon{
+        width:90rpx;
+        height: 90rpx;
+        margin-bottom:6px;
+    }
+
+    .item-title{
+        font-size: 12px;
+        color:rgba(0,0,0,0.7)
+    }
+
+
+    /*--服务功能---*/
+    .service-wrap{
+        display: flex;
+        margin:10px;
+    }
+
+
+    /*---退出---*/
+    .panel-btn{
+        display: flex;
+        margin:10px 10px;
+    }    
 </style>
