@@ -130,6 +130,14 @@
 				"selectedIconPath": "static/basic/home.png",
 				"text": "首页"
 			},
+
+			{
+				"pagePath": "pages/post/post",
+				"iconPath": "static/add.png",
+				"selectedIconPath": "static/add.png",
+				"text": "报废"
+			},
+
 			{
 				"pagePath": "pages/user/user",
 				"iconPath": "static/basic/my.png",
