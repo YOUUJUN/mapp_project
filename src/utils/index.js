@@ -1,9 +1,7 @@
-// import axios from './http';
-
-import db from './sqlite';
+import http from './http';
 
 const lib = {
-    db
+    http
 };
 
 export default lib;

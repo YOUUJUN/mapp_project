@@ -8,7 +8,7 @@ import utils from './utils';
 
 Vue.config.productionTip = false
 
-Vue.prototype.$db = utils.db;
+Vue.prototype.$http = utils.http;
 
 App.mpType = 'app'
 
