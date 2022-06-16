@@ -1,10 +1,15 @@
 <template>
     <view class="root">
 
-        <view class="avatar-wrap">
+        <view class="log-wrap">
+
+            <view class="log">
+                <u-avatar class="avatar-img" src="/static/judy.jpg" :size="140" shape="circle"></u-avatar>
+                <text class="nickname">YOUJUN</text>
+            </view>
 
         </view>
-        <view class="user-wrap" style="margin-top:-15px;">
+        <view class="user-wrap shadow-warp bg-white" style="margin-top:-40px;">
             <text class="user-title">我的订单</text>
 
             <view class="user">
@@ -27,8 +32,8 @@
             </view>
         </view>
 
-        <view class="user-wrap">
-            <text class="user-title">我的订单</text>
+        <view class="service-wrap shadow-warp bg-white">
+            <text class="user-title">我的服务</text>
 
             <view class="user">
 
@@ -59,7 +64,9 @@
 <script>
     export default {
         data() {
-            
+            return {
+                src: 'http://pic2.sc.chinaz.com/Files/pic/pic9/202002/hpic2119_s.jpg'
+            }
         },
         onLoad() {
 
@@ -72,13 +79,36 @@
 
 <style scoped>
     page{
-        background-color: #ededed;
+        background-color: #f7f8fa;
     }
 
-    .avatar-wrap{
+    .log-wrap{
         display: flex;
-        height:500rpx;
-        background-image: url('/static/judy.jpg');
+        flex-direction: column;
+        justify-content: flex-end;
+        height:450rpx;
+        background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%);
+    }
+
+    .log{
+        display: flex;
+        flex-direction: row;
+        margin-left: 28px;
+        margin-bottom: 70px;
+    }
+
+    ::v-deep .u-avatar__img{
+        border: 3rpx solid #fff;
+        border-radius: 50%;
+        -webkit-box-shadow: 0 3rpx 13rpx 0 rgba(0,0,0,.15);
+        box-shadow: 0 5rpx 13rpx 0 rgba(0,0,0,.15);
+    }
+
+    .nickname{
+        font-size: 18px;
+        color: #fff;
+        margin-left: 12px;
+        margin-top: 10px;
     }
 
     .bgImg{
@@ -86,6 +116,7 @@
         width: 100%;
     }
 
+    /*---*/
     .user-wrap{
         margin: 10px;
         background: #fff;
@@ -124,17 +155,22 @@
         color:rgba(0,0,0,0.7)
     }
 
-
     /*--服务功能---*/
     .service-wrap{
-        display: flex;
-        margin:10px;
+        margin: 10px;
+        background: #fff;
+        padding: 7px 10px 20px 10px;
+        border-radius: 6px;
+        margin-top:18px;
     }
 
 
     /*---退出---*/
     .panel-btn{
         display: flex;
-        margin:10px 10px;
+        margin:18px 10px;
     }    
+
+
+
 </style>
